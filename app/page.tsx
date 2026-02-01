@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { BookOpen, Heart, Mountain } from 'lucide-react';
 
 export default function JesusSermon() {
-    const [activeSection, setActiveSection] = useState('beatitudes');
+    const [activeSection, setActiveSection] = useState<number | null>(null);
     const [expandedBeatitude, setExpandedBeatitude] = useState(null);
 
     const sections = {
@@ -217,7 +217,10 @@ but deliver us from the evil one.`
                             {sections.beatitudes.content.map((item, index) => (
                                 <div
                                     key={index}
-                                    onClick={() => setExpandedBeatitude(expandedBeatitude === index ? null : index)}
+                                    onClick={() => {
+                                        // Using the functional updater form ensures you have the latest state
+                                        setExpandedBeatitude(prev => (prev === index ? null : index));
+                                    }}
                                     onMouseEnter={(e) => {
                                         if (expandedBeatitude !== index) {
                                             e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.2)';
@@ -241,6 +244,7 @@ but deliver us from the evil one.`
                                             : 'rgba(245, 230, 211, 0.1)',
                                         cursor: 'pointer',
                                         transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        // Ensure 'index' is accessible here
                                         animation: `slideInLeft 0.6s ease-out ${index * 0.1}s backwards`,
                                         position: 'relative',
                                     }}
@@ -457,4 +461,4 @@ but deliver us from the evil one.`
       `}</style>
         </div>
     );
-};
+}
