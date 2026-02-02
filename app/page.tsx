@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { BookOpen, Heart, Mountain } from 'lucide-react';
 
 export default function JesusSermon() {
-    const [activeSection, setActiveSection] = useState<number | null>(null);
-    const [expandedBeatitude, setExpandedBeatitude] = useState(null);
+    const [activeSection, setActiveSection] = useState('beatitudes');
+    const [expandedBeatitude, setExpandedBeatitude] = useState<number | null>(null);
+
 
     const sections = {
         beatitudes: {
@@ -217,9 +218,20 @@ but deliver us from the evil one.`
                             {sections.beatitudes.content.map((item, index) => (
                                 <div
                                     key={index}
-                                    onClick={() => {
-                                        // Using the functional updater form ensures you have the latest state
-                                        setExpandedBeatitude(prev => (prev === index ? null : index));
+                                    onClick={() => setExpandedBeatitude(expandedBeatitude === index ? null : index)}
+                                    style={{
+                                        padding: '2rem',
+                                        background: expandedBeatitude === index
+                                            ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.06) 100%)'
+                                            : 'rgba(245, 230, 211, 0.03)',
+                                        border: '1px solid',
+                                        borderColor: expandedBeatitude === index
+                                            ? 'rgba(212, 175, 55, 0.3)'
+                                            : 'rgba(245, 230, 211, 0.1)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        animation: `slideInLeft 0.6s ease-out ${index * 0.1}s backwards`,
+                                        position: 'relative'
                                     }}
                                     onMouseEnter={(e) => {
                                         if (expandedBeatitude !== index) {
@@ -232,21 +244,6 @@ but deliver us from the evil one.`
                                             e.currentTarget.style.borderColor = 'rgba(245, 230, 211, 0.1)';
                                             e.currentTarget.style.background = 'rgba(245, 230, 211, 0.03)';
                                         }
-                                    }}
-                                    style={{
-                                        padding: '2rem',
-                                        background: expandedBeatitude === index
-                                            ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.06) 100%)'
-                                            : 'rgba(245, 230, 211, 0.03)',
-                                        border: '1px solid',
-                                        borderColor: expandedBeatitude === index
-                                            ? 'rgba(212, 175, 55, 0.3)'
-                                            : 'rgba(245, 230, 211, 0.1)',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        // Ensure 'index' is accessible here
-                                        animation: `slideInLeft 0.6s ease-out ${index * 0.1}s backwards`,
-                                        position: 'relative',
                                     }}
                                 >
                                     <div style={{
